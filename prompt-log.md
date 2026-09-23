@@ -42,3 +42,11 @@
   - Q-01 "ช่วงเวลาใกล้เคียง" ยังต้องถามพยาบาลคัดกรองก่อนกำหนดกติกาการแสดง 3 ตัวเลือกให้ชัดเจน
 
 ---
+
+## 2569-09-23  คำสั่ง: /tasks and /implement T-10
+
+- เครื่องมือ: Copilot in Codespaces
+- ไฟล์ที่สร้าง/แก้: specs/001-booking/tasks.md (ก่อนหน้านี้), frontend/src/pages/SlotPicker.jsx, frontend/src/api/client.js, frontend/__tests__/AC-BKG-05.test.jsx, backend/app/db/models.py, backend/app/db/migrations/001_init.py, backend/tests/test_migrations.py
+- ผลลัพธ์: สร้าง `tasks.md` และทำงาน `T-10` (SlotPicker) พร้อม test ผ่าน (Vitest)
+- หมายเหตุ: T-01 migration และไฟล์ที่เกี่ยวข้องถูกสร้างเพื่อเตรียมงาน (migration test ยังไม่ได้รันในรอบนี้)
+
