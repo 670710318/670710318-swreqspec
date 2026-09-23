@@ -6,7 +6,11 @@ test("AC-BKG-05: SlotPicker shows remaining seats from mocked API", async () => 
   render(<SlotPicker dateFrom="2026-10-01" packageCode="PKG1" />);
 
   // Await for the mocked data to render
-  expect(await screen.findByText(/Available Slots/)).toBeInTheDocument();
-  expect(await screen.findByText(/Remaining: 3/)).toBeInTheDocument();
-  expect(await screen.findByText(/Remaining: 5/)).toBeInTheDocument();
+  const header = await screen.findByText(/Available Slots/);
+  const r3 = await screen.findByText(/Remaining: 3/);
+  const r5 = await screen.findByText(/Remaining: 5/);
+
+  expect(header).toBeTruthy();
+  expect(r3).toBeTruthy();
+  expect(r5).toBeTruthy();
 });
