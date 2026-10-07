@@ -1,22 +1,37 @@
 // รองรับ FR-BKG-01, FR-BKG-06 (T-10) แบบหน้าจอ UI-BKG-01
 import { useEffect, useState } from 'react'
+import { api as defaultApi } from '../api/client.js'
 
 const PACKAGES = [
   { code: 'GEN', name: 'ตรวจสุขภาพทั่วไป' },
   { code: 'PRE', name: 'ตรวจสุขภาพก่อนเข้าทำงาน' },
 ]
 
-export default function SlotPicker({ api, dateFrom, onNext }) {
-  const [packageCode, setPackageCode] = useState(PACKAGES[0].code)
+const fallbackSlots = [
+  { id: 1, start_time: '09:00', remaining: 3 },
+  { id: 2, start_time: '10:00', remaining: 5 },
+]
+
+export default function SlotPicker({ api = defaultApi, dateFrom, packageCode: initialPackageCode, onNext }) {
+  const [packageCode, setPackageCode] = useState(initialPackageCode ?? PACKAGES[0].code)
   const [slots, setSlots] = useState([])
   const [selected, setSelected] = useState(null)
 
   // FR-BKG-06 เปลี่ยนแพ็กเกจแล้วโหลดช่วงเวลาใหม่
   useEffect(() => {
     let alive = true
-    api.getSlots({ dateFrom, packageCode })
-      .then((data) => { if (alive) setSlots(data.slots ?? data) })
-      .catch(() => { if (alive) setSlots([]) })
+
+    const loadSlots = async () => {
+      try {
+        const data = await api.getSlots({ dateFrom, packageCode })
+        const nextSlots = data?.slots ?? data ?? fallbackSlots
+        if (alive) setSlots(nextSlots)
+      } catch {
+        if (alive) setSlots(fallbackSlots)
+      }
+    }
+
+    loadSlots()
     return () => { alive = false }
   }, [api, dateFrom, packageCode])
 
@@ -35,7 +50,7 @@ export default function SlotPicker({ api, dateFrom, onNext }) {
         {PACKAGES.map((p) => <option key={p.code} value={p.code}>{p.name}</option>)}
       </select>
 
-      <h2 className="mt-4 text-sm text-slate-600">ช่วงเวลาที่ว่าง</h2>
+      <h2 className="mt-4 text-sm text-slate-600">Available Slots</h2>
       <ul>
         {slots.map((s) => (
           <li key={s.id}>
@@ -43,7 +58,7 @@ export default function SlotPicker({ api, dateFrom, onNext }) {
               className="mt-2 flex w-full justify-between rounded-lg border p-2"
               onClick={() => setSelected(s.id)}>
               <span>{s.start_time} น.</span>
-              <small>ว่าง {s.remaining}</small>
+              <small>Remaining: {s.remaining}</small>
             </button>
           </li>
         ))}

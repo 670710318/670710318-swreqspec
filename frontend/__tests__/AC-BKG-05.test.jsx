@@ -13,4 +13,7 @@ test("AC-BKG-05: SlotPicker shows remaining seats from mocked API", async () => 
   expect(header).toBeTruthy();
   expect(r3).toBeTruthy();
   expect(r5).toBeTruthy();
+  expect(alert.textContent).toContain('ช่วงเวลาเต็ม');
+expect(screen.getAllByText('เลือกช่วงนี้').length).toBe(3);
+  
 });
