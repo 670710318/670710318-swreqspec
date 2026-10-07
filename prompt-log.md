@@ -62,3 +62,13 @@
 - TC ID ที่เขียนโค้ด: TC-BKG-01-1, TC-BKG-01-2, TC-BKG-01-3
 - ผลลัพธ์: เพิ่ม test backend ตามแถวที่สถานะ "ใช้ได้" แล้วรัน
 - สถานะ: backend ผ่าน; ส่วนแสดงหมายเลขคิวยังคงเป็น (รอ Q-02) และไม่ได้ assert ในโค้ดตามเงื่อนไข
+
+---
+
+## 2569-10-07 08:40 คำสั่ง: /verify specs/001-booking/
+
+- โหมด: ตรวจ requirement
+- ผล test: backend 7 ผ่าน / 0 ไม่ผ่าน, frontend 2 ผ่าน / 1 suite ไม่ผ่าน
+- จำนวนแถวตามรอยไปข้างหน้า: ครบ 4, ยังไม่ถึง 7, รอ Q-xx 1, ช่องโหว่ 4
+- ข้อค้นพบใหม่: F-001, F-002, F-003, F-004
+- หมายเหตุ: frontend suite ที่ไม่ผ่านคือ frontend/__tests__/AC-BKG-05.test.jsx เนื่องจากไม่มีไฟล์ src/pages/SlotPicker.jsx ที่ test import ไว้
